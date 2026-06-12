@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ControllerApp.ViewModels"
+             xmlns:models="clr-namespace:ControllerApp.Models"
+             x:Class="ControllerApp.Views.SubscriberListPage"
+             x:DataType="vm:SubscriberListViewModel"
+             Title="Абоненттер тізімі"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="10" Spacing="10">
+
+        <!-- 1. Street and Date Header Display -->
+        <Border Grid.Row="0" StrokeThickness="0" BackgroundColor="{StaticResource Primary}" Padding="12">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="*, Auto">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="Таңдалған көше" FontSize="11" TextColor="#B3D4FF" FontAttributes="Bold" />
+                    <Label Text="{Binding Street}" FontSize="16" FontAttributes="Bold" TextColor="White" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Center">
+                    <Label Text="Күні" FontSize="11" TextColor="#B3D4FF" HorizontalOptions="End" />
+                    <Label Text="{Binding Date}" FontSize="14" FontAttributes="Bold" TextColor="White" HorizontalOptions="End" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- 2. Interactive Search Panel -->
+        <Border Grid.Row="1" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="12" BackgroundColor="{StaticResource CardBackground}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12" />
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Іздеу және сүзгілеу" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                <Grid ColumnDefinitions="*, *, *" ColumnSpacing="8">
+                    
+                    <!-- Search by Subscriber ID -->
+                    <Border Grid.Column="0" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="8, 0" BackgroundColor="{StaticResource Secondary}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding SearchSubscriberId}" Placeholder="Абонент №" Keyboard="Numeric" FontSize="12" HeightRequest="38" Margin="0" />
+                    </Border>
+
+                    <!-- Search by Full Name -->
+                    <Border Grid.Column="1" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="8, 0" BackgroundColor="{StaticResource Secondary}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding SearchFullName}" Placeholder="Аты-жөні" Keyboard="Text" FontSize="12" HeightRequest="38" Margin="0" />
+                    </Border>
+
+                    <!-- Search by Address -->
+                    <Border Grid.Column="2" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="8, 0" BackgroundColor="{StaticResource Secondary}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding SearchAddress}" Placeholder="Адрес" Keyboard="Text" FontSize="12" HeightRequest="38" Margin="0" />
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- 3. Scrollable Subscriber Table -->
+        <Grid Grid.Row="2" RowDefinitions="Auto, *">
+            
+            <!-- Sticky Table Header with Sort Triggers -->
+            <Grid Grid.Row="0" 
+                  ColumnDefinitions="75, 1.2*, 1.2*, 65, 85, 65" 
+                  Padding="8, 10" 
+                  BackgroundColor="{StaticResource Secondary}"
+                  Margin="0,0,0,4">
+                
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontAttributes" Value="Bold" />
+                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                        <Setter Property="VerticalOptions" Value="Center" />
+                        <Setter Property="HorizontalOptions" Value="Center" />
+                    </Style>
+                </Grid.Resources>
+
+                <!-- Subscriber ID Header -->
+                <Grid Grid.Column="0" HorizontalOptions="FillAndExpand">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="SubscriberId" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="Абонент ⇅" />
+                </Grid>
+
+                <!-- Full Name Header -->
+                <Grid Grid.Column="1" HorizontalOptions="FillAndExpand">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="FullName" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="ФИО ⇅" HorizontalOptions="Start" />
+                </Grid>
+
+                <!-- Address Header -->
+                <Grid Grid.Column="2" HorizontalOptions="FillAndExpand">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Address" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="Адрес ⇅" HorizontalOptions="Start" />
+                </Grid>
+
+                <!-- Start Value Header -->
+                <Grid Grid.Column="3" HorizontalOptions="FillAndExpand">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="StartValue" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="Бастап. ⇅" />
+                </Grid>
+
+                <!-- End Value Header -->
+                <Grid Grid.Column="4" HorizontalOptions="FillAndExpand">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="EndValue" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="Соңғы көрс. ⇅" TextColor="{StaticResource Primary}" />
+                </Grid>
+
+                <!-- Difference Header -->
+                <Grid Grid.Column="5" HorizontalOptions="FillAndExpand">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Difference" />
+                    </Grid.GestureRecognizers>
+                    <Label Text="Айырма ⇅" />
+                </Grid>
+            </Grid>
+
+            <!-- Table Rows List View -->
+            <CollectionView Grid.Row="1" ItemsSource="{Binding DisplayedSubscribers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Subscriber">
+                        <Grid ColumnDefinitions="75, 1.2*, 1.2*, 65, 85, 65" Padding="4, 8" Margin="0,0,0,1">
+                            <Grid.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                                    <Setter Property="VerticalOptions" Value="Center" />
+                                </Style>
+                            </Grid.Resources>
+
+                            <!-- Custom row background decoration -->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#E6F0FF" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <!-- Subscriber ID -->
+                            <Label Grid.Column="0" Text="{Binding SubscriberId}" HorizontalOptions="Center" FontAttributes="Bold" />
+
+                            <!-- Full Name -->
+                            <Label Grid.Column="1" Text="{Binding FullName}" LineBreakMode="WordWrap" Margin="0,0,5,0" />
+
+                            <!-- Address -->
+                            <Label Grid.Column="2" Text="{Binding Address}" LineBreakMode="WordWrap" Margin="0,0,5,0" />
+
+                            <!-- Start Value -->
+                            <Label Grid.Column="3" Text="{Binding StartValue}" HorizontalOptions="Center" />
+
+                            <!-- End Value (Editable Input Box) -->
+                            <Border Grid.Column="4" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="5, 0" BackgroundColor="{StaticResource Secondary}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6" />
+                                </Border.StrokeShape>
+                                <Entry Text="{Binding EndValue, Mode=TwoWay}"
+                                       Keyboard="Numeric"
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="13"
+                                       HeightRequest="36"
+                                       Margin="0"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}" />
+                            </Border>
+
+                            <!-- Difference (Calculated & Colorized) -->
+                            <Label Grid.Column="5" 
+                                   Text="{Binding Difference}" 
+                                   HorizontalOptions="Center" 
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource SuccessGreen}">
+                                <Label.Triggers>
+                                    <!-- Highlight difference if non-zero -->
+                                    <DataTrigger TargetType="Label" Binding="{Binding Difference}" Value="0">
+                                        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="40" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Абоненттер табылмады" FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                        <Label Text="Іздеу сүзгілерін тексеріңіз немесе жүктелген файлда бұл көшеде абоненттер бар-жоғын анықтаңыз." FontSize="12" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="{StaticResource PlaceholderColor}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </Grid>
+
+        <!-- 4. Sync/Upload Bottom Panel -->
+        <Border Grid.Row="3" StrokeThickness="0" BackgroundColor="{StaticResource CardBackground}" Padding="5, 10">
+            <Button Text="Серверге жіберу (Upload)" 
+                    Command="{Binding UploadDataCommand}" 
+                    IsEnabled="{Binding IsNotBusy}"
+                    BackgroundColor="{StaticResource SuccessGreen}"
+                    HeightRequest="52"
+                    FontSize="16"
+                    FontAttributes="Bold">
+                <Button.Shadow>
+                    <Shadow Brush="{StaticResource SuccessGreen}" Offset="0,4" Radius="8" Opacity="0.3" />
+                </Button.Shadow>
+            </Button>
+        </Border>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.RowSpan="4" BackgroundColor="#80FFFFFF" IsVisible="{Binding IsBusy}" HorizontalOptions="Fill" VerticalOptions="Fill">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" HeightRequest="50" WidthRequest="50" />
+                <Label Text="Әрекет орындалуда..." FontAttributes="Bold" FontSize="14" TextColor="{StaticResource Primary}" />
+            </VerticalStackLayout>
+        </Grid>
+        
+    </Grid>
+</ContentPage>

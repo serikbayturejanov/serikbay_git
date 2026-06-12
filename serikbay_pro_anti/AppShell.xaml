@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ControllerApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ControllerApp.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Controller App">
+
+    <!-- Design customization of the Navigation bar -->
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" IsEnabled="True" />
+    </Shell.BackButtonBehavior>
+
+    <TabBar>
+        <Tab Title="Registration" Route="RegistrationPage">
+            <ShellContent ContentTemplate="{DataTemplate views:RegistrationPage}" />
+        </Tab>
+        <Tab Title="Home" Route="MainPage">
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

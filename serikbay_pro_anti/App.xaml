@@ -1,0 +1,79 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ControllerApp"
+             x:Class="ControllerApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Merged Dictionaries here if any -->
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Color Palette matching Figma design specifications -->
+            <Color x:Key="Primary">#0052CC</Color>
+            <Color x:Key="PrimaryDark">#0747A6</Color>
+            <Color x:Key="Secondary">#F4F5F7</Color>
+            <Color x:Key="Background">#FFFFFF</Color>
+            <Color x:Key="CardBackground">#FFFFFF</Color>
+            <Color x:Key="TextPrimary">#172B4D</Color>
+            <Color x:Key="TextSecondary">#5E6C84</Color>
+            <Color x:Key="BorderColor">#DFE1E6</Color>
+            <Color x:Key="WarningRed">#DE350B</Color>
+            <Color x:Key="SuccessGreen">#00875A</Color>
+            <Color x:Key="PlaceholderColor">#A5ADBA</Color>
+
+            <!-- Global Style definitions -->
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="Padding" Value="15, 0" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#DFE1E6" />
+                                    <Setter Property="TextColor" Value="#A5ADBA" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Margin" Value="0, 5" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+            </Style>
+
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                <Setter Property="Margin" Value="0, 10" />
+            </Style>
+
+            <Style x:Key="SubheaderLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+                <Setter Property="Margin" Value="0, 5" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
